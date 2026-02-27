@@ -13,13 +13,40 @@ class Cuenta extends Model
         'saldo_actual'
     ];
 
+    protected $casts = [
+        'saldo_actual' => 'decimal:2'
+    ];
+
+    protected $attributes = [
+        'saldo_actual' => 0
+    ];
+
+    /* ========================
+       RELACIONES
+    ======================== */
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function transacciones()
     {
         return $this->hasMany(Transaccion::class);
     }
 
-    public function user()
+    public function canales()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(CanalTransaccion::class);
+    }
+
+    public function transferenciasOrigen()
+    {
+        return $this->hasMany(Transferencia::class, 'cuenta_origen_id');
+    }
+
+    public function transferenciasDestino()
+    {
+        return $this->hasMany(Transferencia::class, 'cuenta_destino_id');
     }
 }

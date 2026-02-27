@@ -4,17 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transaccion extends Model
+class Transferencia extends Model
 {
     protected $fillable = [
         'user_id',
         'monto',
-        'tipo',
-        'descripcion',
         'fecha',
-        'cuenta_id',
-        'categoria_id',
-        'persona_id',
+        'descripcion',
+        'cuenta_origen_id',
+        'cuenta_destino_id',
         'canal_transaccion_id'
     ];
 
@@ -32,19 +30,14 @@ class Transaccion extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function cuenta()
+    public function cuentaOrigen()
     {
-        return $this->belongsTo(Cuenta::class);
+        return $this->belongsTo(Cuenta::class, 'cuenta_origen_id');
     }
 
-    public function categoria()
+    public function cuentaDestino()
     {
-        return $this->belongsTo(Categoria::class);
-    }
-
-    public function persona()
-    {
-        return $this->belongsTo(Persona::class);
+        return $this->belongsTo(Cuenta::class, 'cuenta_destino_id');
     }
 
     public function canal()
