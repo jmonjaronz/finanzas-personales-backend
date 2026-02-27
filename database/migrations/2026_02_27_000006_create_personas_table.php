@@ -6,35 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('cuentas', function (Blueprint $table) {
+        Schema::create('personas', function (Blueprint $table) {
 
             $table->id();
 
             $table->foreignId('user_id')
                 ->constrained()
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
 
             $table->string('nombre');
 
-            $table->string('tipo');
+            $table->string('relacion'); 
+            // yo, esposa, hijo, cliente, alumno, etc
 
-            $table->decimal('saldo_actual', 12, 2)->default(0);
+            $table->boolean('activa')->default(true);
 
             $table->timestamps();
 
+            $table->index(['user_id', 'nombre']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('cuentas');
+        Schema::dropIfExists('personas');
     }
 };

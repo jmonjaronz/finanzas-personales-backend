@@ -8,32 +8,32 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('categorias', function (Blueprint $table) {
+        Schema::create('cuentas', function (Blueprint $table) {
 
             $table->id();
 
             $table->foreignId('user_id')
                 ->constrained()
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
 
             $table->string('nombre');
 
-            // ingreso o egreso
-            $table->string('tipo');
+            $table->string('tipo'); // efectivo, banco, inversion
 
-            // subcategoría (nullable)
-            $table->foreignId('categoria_padre_id')
-                ->nullable()
-                ->constrained('categorias')
-                ->onDelete('cascade');
+            $table->decimal('saldo_inicial', 14, 2)->default(0);
+
+            $table->decimal('saldo_actual', 14, 2)->default(0);
+
+            $table->boolean('activa')->default(true);
 
             $table->timestamps();
 
+            $table->index(['user_id', 'nombre']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('categorias');
+        Schema::dropIfExists('cuentas');
     }
 };
