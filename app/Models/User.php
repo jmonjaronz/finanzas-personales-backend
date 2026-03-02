@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -30,36 +32,36 @@ class User extends Authenticatable
     }
 
     /* ========================
-       RELACIONES FINANCIERAS
-    ======================== */
+     RELACIONES FINANCIERAS
+     ======================== */
 
-    public function cuentas()
+    public function accounts()
     {
-        return $this->hasMany(Cuenta::class);
+        return $this->hasMany(Account::class);
     }
 
-    public function categorias()
+    public function categories()
     {
-        return $this->hasMany(Categoria::class);
+        return $this->hasMany(Category::class);
     }
 
-    public function personas()
+    public function people()
     {
-        return $this->hasMany(Persona::class);
+        return $this->hasMany(Person::class);
     }
 
-    public function transacciones()
+    public function transactions()
     {
-        return $this->hasMany(Transaccion::class);
+        return $this->hasMany(Transaction::class);
     }
 
-    public function transferencias()
+    public function transfers()
     {
-        return $this->hasMany(Transferencia::class);
+        return $this->hasMany(Transfer::class);
     }
 
-    public function canales()
+    public function transactionChannels()
     {
-        return $this->hasMany(CanalTransaccion::class);
+        return $this->hasMany(TransactionChannel::class);
     }
 }
